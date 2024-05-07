@@ -17,10 +17,13 @@
     },
     "scripts": {
       "start": "react-scripts --openssl-legacy-provider start",
-      "build": "react-scripts --openssl-legacy-provider build"
-  
-  
-  
+    "build": "react-scripts --openssl-legacy-provider build",
+      
+      "predeploy": "npm run build",
+      "deploy": "gh-pages -d build",
+      
+      "eject": "react-scripts eject",
+      "server": "json-server --watch db.json -p 8002"
     },
     "eslintConfig": {
       "extends": [
