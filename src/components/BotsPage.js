@@ -16,7 +16,7 @@ function BotsPage() {
   };
 
   const handleDischarge = (bot) => {
-    fetch(`http://localhost:8002/bots/${bot.id}`, {
+    fetch(`https://my-bots-4.onrender.com/bots/${bot.id}`, {
       method: "DELETE",
     })
     .then(response => {
