@@ -10,11 +10,14 @@
     "web-vitals": "^0.2.4"
   },
   "devDependencies": {
+    "@babel/helper-compilation-targets": "^7.23.6",
     "json-server": "^0.15.1"
   },
   "scripts": {
-    "start": "PORT=8000 react-scripts start",
-    "server": "json-server --watch db.json -p 8002"
+    "start": "PORT=8000 react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "server": "json-server --watch db.json -p 8001"
+    
   },
   "eslintConfig": {
     "extends": [
