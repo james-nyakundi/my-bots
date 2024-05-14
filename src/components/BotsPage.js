@@ -1,46 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import YourBotArmy from "./YourBotArmy";
 import BotCollection from "./BotCollection";
 
 function BotsPage() {
-  //start here with your code for step one
-  const [bots, setBots] = useState([]);
+  const [army, setArmy] = useState([]);
 
-  //a utility function to fetch data from the server
-  function fetchData() {
-    return fetch(`https://my-bots-3.onrender.com`)
-      .then((resp) => resp.json())
-      .then((data) => {
-        setBots(data);
-      });
-  }
-  //run fetch whenever the page loads
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // Function to add a bot to the army
+  const addToArmy = (bot) => {
+    setArmy([...army, bot]);
+  };
 
-  //add bot to army when the bot is clicked
+  const handleReleaseFromArmy = (bot) => {
+    const updatedArmy = army.filter((armyBot) => armyBot.id !== bot.id);
+    setArmy(updatedArmy);
+  };
 
-  function enlistBot(bot) {
-    setBots(bots.map((b) => (b.id === bot.id ? { ...b, army: true } : b)));
-  }
+  const handleDischarge = (bot) => {
+    fetch(`https://my-bots-4.onrender.com/bots/${bot.id}`, {
+      method: "DELETE",
+    })
+    .then(response => {
+      if (response.ok) {
+        const updatedArmy = army.filter((armyBot) => armyBot.id !== bot.id);
+        setArmy(updatedArmy);
+        console.log("Bot discharged from service and deleted from backend.");
+      } else {
+        console.error("Failed to discharge bot:", response.statusText);
+      }
+    })
+    .catch((error) => {
+      console.error("Error discharging bot:", error);
+    });
+  };
 
-  function removeBot(bot) {
-    setBots(bots.map((b) => (b.id === bot.id ? { ...b, army: false } : b)));
-  }
 
-  function deleteBot(bot) {
-    const deletedBot = bots.filter((b) => b.id !== bot.id);
-    setBots((bots) => deletedBot);
-  }
   return (
     <div>
-      <YourBotArmy
-        bots={bots.filter((b) => b.army)}
-        removeBot={removeBot}
-        deleteBot={deleteBot}
-      />
-      <BotCollection bots={bots} enlistBot={enlistBot} deleteBot={deleteBot} />
+      <YourBotArmy army={army} handleReleaseFromArmy={handleReleaseFromArmy} handleDischarge={handleDischarge} />
+      <BotCollection addToArmy={addToArmy} army={army} />
     </div>
   );
 }
