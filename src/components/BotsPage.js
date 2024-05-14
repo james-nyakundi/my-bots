@@ -8,7 +8,7 @@ function BotsPage() {
 
   //a utility function to fetch data from the server
   function fetchData() {
-    return fetch(`https://my-bots-2.onrender.com/bots`)
+    return fetch(`https://my-bots-3.onrender.com`)
       .then((resp) => resp.json())
       .then((data) => {
         setBots(data);
